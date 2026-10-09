@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<!-- 分享卡模板：1200×630。由 tools/make-assets.sh 用 headless Chrome 截图成 assets/og.png。
+     改完记得重跑脚本。视觉与站点同一套 token（见 ../styles.css）。 -->
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1200px; height: 630px;
+    background: #F5F2EB; color: #0B0B0A;
+    font-family: "IBM Plex Sans", "PingFang SC", "Noto Sans SC", sans-serif;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: 64px 72px; box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif; }
+  .mono  { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
+
+  .top { display: flex; align-items: center; gap: 18px; }
+  .seal {
+    position: relative; width: 56px; height: 56px; background: #B23A26;
+    color: #F5F2EB; display: grid; place-items: center;
+    font-family: "Noto Serif SC", "Songti SC", serif; font-size: 34px; line-height: 1;
+  }
+  .seal::before { content: ""; position: absolute; inset: 5px; border: 1px solid currentColor; opacity: .45; }
+  .brand-name { font-family: "Noto Serif SC", "Songti SC", serif; font-size: 26px; line-height: 1.2; }
+  .brand-sub { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .18em; color: #6A665C; margin-top: 4px; }
+
+  h1 { font-family: "Noto Serif SC", "Songti SC", serif; font-weight: 400;
+       font-size: 58px; line-height: 1.28; letter-spacing: -.01em; margin: 0; }
+  .sub { font-size: 21px; line-height: 1.7; color: #45423B; margin-top: 22px; max-width: 30em; }
+
+  .bottom { }
+  .rule { border-top: 2px solid #0B0B0A; position: relative; padding-top: 4px; margin-bottom: 16px; }
+  .rule::before { content: ""; position: absolute; inset: 4px 0 auto 0; border-top: 1px solid #E2DCCE; }
+  .meta { display: flex; justify-content: space-between;
+          font-family: "JetBrains Mono", monospace; font-size: 13px;
+          letter-spacing: .12em; color: #6A665C; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <span class="seal">课</span>
+    <div>
+      <div class="brand-name">课蒸馏</div>
+      <div class="brand-sub">COURSE DISTILLER</div>
+    </div>
+  </div>
+
+  <div>
+    <h1>看过的课，<br>留在纸上。</h1>
+    <p class="sub">把一门 B 站网课摊成可检索的讲义、词条与师承。每讲六栏结构化，每条带时间锚点。</p>
+  </div>
+
+  <div class="bottom">
+    <div class="rule"></div>
+    <div class="meta">
+      <span>Android · 0.1.0 · 15.5 MB</span>
+      <span>dpenglish-com.github.io/keliuzheng-site</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,445 @@
+/* =========================================================================
+   课蒸馏 · 专属官网
+   视觉直接沿用 App 的 INK 卷（.stitch/DESIGN.md），不另起一套：
+   宣纸底、焦墨字、单色朱砂作强调；标题宋、正文黑、数字与标签等宽；
+   圆角统一 2px、零阴影、零图标；分区靠细线三相与纸色，不靠卡片。
+
+   四个必须复现的签名：双线报头、朱印、等宽尾注、左侧批注。
+
+   与 App 的两处刻意差异（网页不是手机，理由写在各自位置）：
+   · 主操作走焦墨填充（INK 组件表的规定），朱砂只留给印 / 当前 / 批注，
+     保证每屏朱砂不超过三处；
+   · 入场只有淡入、没有位移——INK 明写「不做位移」。
+   ========================================================================= */
+
+/* ---------------------------------------------------------------- 纸墨 */
+:root {
+  --canvas: #F5F2EB;   /* 宣纸：页面底，唯一的全局背景 */
+  --page:   #FCFAF6;   /* 书页：比画布更亮，纸因此有厚度 */
+  --well:   #EDE8DC;   /* 压纸：内嵌槽、禁用填充、轨道 */
+  --edge:   #E2DCCC;   /* 纸边：卷首卷尾的窄纸条 */
+
+  --ink:    #0B0B0A;   /* 焦墨：标题、主操作填充、书脊线 */
+  --ink-2:  #22211D;   /* 重墨：正文强调、当前行 */
+  --ink-3:  #45423B;   /* 中墨：正文 */
+  --ink-4:  #6A665C;   /* 淡墨：元信息、序号、时间锚点（受 AA 约束的取值） */
+  --ink-5:  #918B7E;   /* 灰墨：仅装饰，不得承载文字 */
+
+  --vermilion: #B23A26;  /* 朱砂：印、当前、批注 */
+  --seal-ink:  #8E2C1D;  /* 印泥：按下态、错误批注 */
+  --note-bg:   #F3E4DE;  /* 朱批底：全站最多同时出现一处 */
+
+  --hair: #E2DCCE;     /* 发丝线 1px：行分界 */
+  --rule: #C6BFAD;     /* 结构线 1px：分栏、报头下沿 */
+
+  --serif: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "Noto Serif", serif;
+  --sans: "IBM Plex Sans", "IBM Plex Sans SC", "PingFang SC", "Noto Sans SC",
+          system-ui, sans-serif;
+  --mono: "JetBrains Mono", "SF Mono", Menlo, ui-monospace, monospace;
+
+  --measure: 640px;      /* 阅读栏宽 ≈34 汉字 */
+  --gutter: 20px;
+  --section: 36px;       /* 分区纵向间距 */
+  --inline: 12px;
+
+  --dur-line: 240ms;     /* 墨线延伸 */
+  --dur-seal: 120ms;     /* 朱印按下 */
+  --ease-out: cubic-bezier(.22, .61, .36, 1);
+}
+
+/* 夜读：墨底纸字，同样「面比底更亮」以保住厚度关系。不加任何光晕。 */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --canvas: #111110; --page: #191917; --well: #171716; --edge: #1E1E1C;
+    --ink: #EDEAE2; --ink-2: #DAD6CC; --ink-3: #B9B4A8; --ink-4: #938E82; --ink-5: #6B665C;
+    --vermilion: #D4553A; --seal-ink: #B23A26; --note-bg: #2A1D19;
+    --hair: #2A2A27; --rule: #3D3B36;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink-3);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 26px;
+  letter-spacing: .01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; }
+
+h1, h2, h3, h4 {
+  font-family: var(--serif);
+  font-weight: 400;          /* 宋体只用 400，靠字号与留白建立层级 */
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: 0;         /* 标题不加字距 */
+  text-wrap: balance;
+}
+
+p { margin: 0 0 var(--inline); }
+p:last-child { margin-bottom: 0; }
+
+code { font-family: var(--mono); font-size: .92em; }
+
+/* 等宽：一切数字与小型标签。tabular-nums 必须带上，否则数字竖排会跳。 */
+.mono {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--vermilion);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--ink); color: var(--canvas);
+  padding: 10px 16px; z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+/* ---------------------------------------------------------------- 版心 */
+.wrap {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.prose { max-width: var(--measure); }
+
+.section { padding: 56px 0; border-top: 1px solid var(--hair); }
+
+/* 双线报头（签名 1）：2px 焦墨书脊线，空 4px，再来 1px 发丝线。
+   每个分区标题都顶着一道——这是这套系统最容易被认出来的地方。 */
+.sec-title { position: relative; padding-top: 20px; }
+.sec-title::before {
+  content: ""; position: absolute; inset: 0 0 auto 0;
+  border-top: 2px solid var(--ink);
+}
+.sec-title::after {
+  content: ""; position: absolute; inset: 4px 0 auto 0;
+  border-top: 1px solid var(--hair);
+}
+
+.sub-title {
+  font-size: 18px; line-height: 27px;
+  margin: 56px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--hair);
+}
+
+h2.sec-title { font-size: clamp(23px, 3vw, 30px); line-height: 1.35; }
+
+/* 微标签：等宽、加宽字距、淡墨，像账本 */
+.micro {
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: .18em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-4);
+  text-transform: uppercase;
+}
+
+/* 左侧批注（签名 4）：2px 朱砂竖线 + 微标签 + 正文。用来提示，不用方框。 */
+.note {
+  border-left: 2px solid var(--vermilion);
+  padding: 2px 0 2px 14px;
+  max-width: var(--measure);
+}
+.note .micro { display: block; margin-bottom: 6px; }
+.note p { font-size: 13.5px; line-height: 22px; color: var(--ink-4); }
+
+/* 朱印（签名 2）：方形、直角、阴文＝朱砂填充＋纸色字，内嵌 1px 边款。 */
+.seal {
+  position: relative;
+  width: 34px; height: 34px;
+  flex: 0 0 auto;
+  background: var(--vermilion);
+  color: var(--canvas);
+  display: grid; place-items: center;
+  font-family: var(--serif);
+  font-size: 20px; line-height: 1;
+  user-select: none;
+}
+.seal::before {
+  content: ""; position: absolute; inset: 3px;
+  border: 1px solid currentColor; opacity: .45;
+}
+.seal-lg { width: 44px; height: 44px; font-size: 26px; }
+
+/* ---------------------------------------------------------------- 页头 */
+.site-header {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--canvas);
+  border-bottom: 1px solid var(--hair);
+}
+/* 滚起来之后换成结构线，页头和内容之间才有一条明确的分界 */
+.site-header.is-scrolled { border-bottom-color: var(--rule); }.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--inline);
+  min-height: 60px;
+  padding-top: 10px; padding-bottom: 10px;
+}
+.brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+  font-family: var(--serif); font-size: 18px; color: var(--ink);
+}
+.brand small {
+  display: block;
+  font-family: var(--mono); font-size: 10px; letter-spacing: .18em;
+  color: var(--ink-4);
+}
+
+.site-nav { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+.site-nav a {
+  position: relative;
+  display: inline-flex; align-items: center; min-height: 44px;
+  padding: 0 10px;
+  font-size: 13.5px; color: var(--ink-4); text-decoration: none;
+}
+.site-nav a:hover { color: var(--ink-2); }
+/* 当前所在＝朱砂（INK 铁律 1 的第二个角色） */
+.site-nav a.is-active { color: var(--ink); }
+.site-nav a.is-active::before {
+  content: ""; position: absolute; left: 10px; right: 10px; top: 0;
+  border-top: 2px solid var(--vermilion);
+}
+
+/* ---------------------------------------------------------------- 首屏 */
+/* 首屏刻意不放截图。App 的渲染稿是整页长图（780×1926 那种），并排两列后
+   每张只剩两百多像素宽、界面文字全糊；放大到能读又要把首屏撑到近千像素高。
+   与其两头不讨好，不如让首屏回到纯排版——这也是 INK 卷自己的样子：
+   一枚朱印、一行宋体大标题、一条批注。截图统一放到「界面」那一区给足宽度。 */
+.hero { padding: 56px 0 64px; }
+.hero-inner { display: flow-root; }
+.hero h1 {
+  font-size: clamp(32px, 6vw, 44px);
+  line-height: 1.25;
+  letter-spacing: -.01em;
+  margin: 24px 0 20px;
+  max-width: 16em;
+}
+.hero-sub {
+  font-size: 17px; line-height: 32px;
+  max-width: var(--measure);
+  color: var(--ink-3);
+}
+.hero-actions {
+  display: flex; flex-wrap: wrap; gap: var(--inline);
+  margin-top: 32px;
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: 0 22px;
+  font-size: 13.5px; letter-spacing: .02em;
+  text-decoration: none; border-radius: 2px;
+  border: 1px solid transparent;
+}
+/* 主操作：焦墨填充 + 内嵌 1px 纸色细边（印章的边款）。按下缩到 .98。 */
+.btn-primary {
+  position: relative;
+  background: var(--ink); color: var(--canvas);
+  transition: transform var(--dur-seal) var(--ease-out);
+}
+.btn-primary::before {
+  content: ""; position: absolute; inset: 3px;
+  border: 1px solid var(--canvas); opacity: .35;
+  pointer-events: none;
+}
+.btn-primary:active { transform: scale(.98); }
+.btn-line { border-color: var(--rule); color: var(--ink-2); }
+.btn-line:hover { border-color: var(--ink-2); }
+.btn-large { min-height: 54px; padding: 0 28px; font-size: 15px; }
+
+/* 等宽尾注（签名 3）：小号等宽、加宽字距、淡墨。 */
+.facts {
+  display: flex; flex-wrap: wrap; gap: 0;
+  margin: 36px 0 0;
+  border-top: 1px solid var(--hair);
+}
+.facts > div {
+  padding: 12px 28px 0 0;
+}
+.facts dt { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; color: var(--ink-4); text-transform: uppercase; }
+.facts dd { margin: 2px 0 0; font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 13.5px; color: var(--ink-2); }
+
+/* 截图：书页纸 + 1px 发丝框，零阴影。纸的厚度靠更亮的底，不靠投影。 */
+.shot { margin: 0; }
+.shot img {
+  width: 100%; height: auto;
+  background: var(--page);
+  border: 1px solid var(--hair);
+}
+.shot figcaption {
+  margin-top: 10px;
+  font-size: 13.5px; line-height: 22px; color: var(--ink-4);
+  max-width: 34em;
+}
+.shot.is-broken img { display: none; }
+
+/* 界面区：两列，每张给足宽度。截图是整页长图，缩到两三百像素就只剩色块，
+   所以宁肯让这一区高一点，也不把它塞进侧栏。 */
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  margin-top: 32px;
+}
+.gallery .shot figcaption { margin-top: 12px; }
+
+/* ---------------------------------------------------------------- 分段 */
+.split { display: grid; gap: 32px; margin-top: 24px; align-items: start; }
+.split-text p { max-width: var(--measure); }
+.split-kicker {
+  margin-top: 20px;
+  border-left: 2px solid var(--vermilion);
+  padding-left: 14px;
+  color: var(--ink-2);
+  max-width: var(--measure);
+}
+
+/* 工序账目：等宽序号 + 阶段名 + 状态文字。状态只写成文字，不用红黄绿。 */
+.steps { list-style: none; margin: 24px 0 0; padding: 0; counter-reset: step; }
+.steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-top: 1px solid var(--hair);
+}
+.steps li::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--mono); font-variant-numeric: tabular-nums;
+  font-size: 11px; letter-spacing: .16em;
+  color: var(--ink-4);
+  padding-top: 4px;
+}
+.steps h3 { font-size: 18px; line-height: 27px; margin-bottom: 6px; }
+.steps p { font-size: 13.5px; line-height: 22px; color: var(--ink-4); max-width: 34em; }
+.steps .state { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; color: var(--ink-4); }
+
+/* 六栏：讲义里一节的结构。等宽标签 + 发丝线，不用卡片。 */
+.ledger { margin-top: 24px; border-top: 1px solid var(--hair); }
+.ledger-row {
+  display: grid; grid-template-columns: 92px 1fr; gap: 16px;
+  padding: 12px 0; border-bottom: 1px solid var(--hair);
+}
+.ledger-row dt { font-family: var(--mono); font-size: 11px; letter-spacing: .16em; color: var(--ink-4); }
+.ledger-row dd { margin: 0; font-size: 15px; line-height: 26px; }
+
+/* 功能：分组标题 + 定义列表。 */
+.feature-groups { display: grid; gap: 36px; margin-top: 24px; }
+.group h3 { font-size: 18px; line-height: 27px; margin-bottom: 4px; }
+.group { border-top: 1px solid var(--hair); padding-top: 14px; }
+.group dl { margin: 0; }
+.group dt { font-size: 15px; color: var(--ink-2); margin-top: 14px; }
+.group dd { margin: 4px 0 0; font-size: 13.5px; line-height: 22px; color: var(--ink-4); max-width: 34em; }
+.feature-more { margin-top: 28px; font-size: 13.5px; color: var(--ink-4); }
+
+/* ---------------------------------------------------------------- 合规 */
+.section-well { background: var(--well); border-top: 1px solid var(--hair); }
+.verify-list { list-style: none; margin: 24px 0 0; padding: 0; }
+.verify-list li {
+  padding: 16px 0; border-top: 1px solid var(--rule);
+  display: grid; gap: 4px;
+}
+.verify-k { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; color: var(--ink-4); text-transform: uppercase; }
+.verify-v { font-family: var(--serif); font-size: 18px; color: var(--ink); }
+.verify-list p { font-size: 13.5px; line-height: 22px; color: var(--ink-4); max-width: 34em; }
+
+/* ---------------------------------------------------------------- 下载 */
+.download-panel {
+  display: grid; gap: 32px;
+  margin-top: 24px;
+  background: var(--page);
+  border: 1px solid var(--hair);
+  padding: 28px var(--gutter);
+}
+.download-note { font-size: 15px; color: var(--ink-2); margin-bottom: 20px; }
+.download-hint { margin-top: 18px; font-size: 13.5px; line-height: 22px; color: var(--ink-4); max-width: 34em; }
+.download-specs { margin: 0; border-top: 1px solid var(--hair); }
+.download-specs > div {
+  display: grid; grid-template-columns: 96px 1fr; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid var(--hair);
+}
+.download-specs dt { font-family: var(--mono); font-size: 10px; letter-spacing: .18em; color: var(--ink-4); text-transform: uppercase; padding-top: 3px; }
+.download-specs dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 13.5px; color: var(--ink-2); }
+.hash { word-break: break-all; font-size: 12px; color: var(--ink-4); }
+
+/* ---------------------------------------------------------------- 页脚 */
+.site-footer { border-top: 1px solid var(--hair); padding: 36px 0 56px; }
+.footer-inner { display: grid; gap: 24px; }
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-brand strong { font-family: var(--serif); font-weight: 400; font-size: 18px; color: var(--ink); display: block; }
+.footer-brand span { font-size: 13.5px; color: var(--ink-4); }
+.footer-copy { font-size: 13.5px; color: var(--ink-4); }
+.footer-links { display: flex; flex-wrap: wrap; gap: 20px; }
+.footer-links a { font-size: 13.5px; color: var(--ink-4); text-decoration: none; border-bottom: 1px solid var(--hair); }
+.footer-links a:hover { color: var(--ink-2); border-bottom-color: var(--rule); }
+
+/* ---------------------------------------------------------------- 动效 */
+/* 阅读进度：墨线延伸（240ms ease-out），焦墨不是朱砂——朱砂不做装饰。 */
+.read-progress {
+  position: fixed; top: 0; left: 0; z-index: 30;
+  height: 2px; width: 100%;
+  background: var(--ink);
+  transform: scaleX(0); transform-origin: left center;
+}
+
+/* 入场只有淡入，没有位移：INK 明写「页面切换不做位移」。 */
+[data-reveal] { opacity: 0; transition: opacity 420ms var(--ease-out); }
+[data-reveal].is-visible { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  [data-reveal] { opacity: 1; }
+  .read-progress { display: none; }
+}
+
+/* ---------------------------------------------------------------- 断点 */
+@media (min-width: 720px) {
+  .gallery { grid-template-columns: 1fr 1fr; gap: 44px 40px; }
+  .feature-groups { grid-template-columns: 1fr 1fr; gap: 36px 48px; }
+  .footer-inner { grid-template-columns: 1fr auto; align-items: end; }
+}
+@media (min-width: 900px) {
+  :root { --gutter: 32px; --section: 36px; }
+  .section { padding: 72px 0; }
+  .hero { padding: 72px 0 88px; }
+  .download-panel { grid-template-columns: 1fr 1fr; gap: 48px; padding: 36px 40px; }
+}
+@media (max-width: 619px) {
+  /* 窄屏页头排不下「品牌 + 五个导航项」一行。做法是让页头不吸顶、
+     品牌收掉英文副标，导航独占一行铺满——不做横向滚动的隐藏滚动条，
+     那种「看着有、摸不着」的导航在手机上很容易漏掉。
+     阅读进度线仍在，方向感不缺。 */
+  .site-header { position: static; }
+  .header-inner { flex-wrap: wrap; row-gap: 0; padding-bottom: 0; }
+  .brand small { display: none; }
+  .site-nav { width: 100%; justify-content: space-between; }
+  .site-nav a { min-height: 44px; padding: 0 4px; font-size: 13px; }
+  .site-nav a.is-active::before { left: 4px; right: 4px; }
+  .ledger-row, .download-specs > div { grid-template-columns: 84px 1fr; }
+}
+@media print {
+  .site-header, .read-progress, .site-nav { display: none; }
+  [data-reveal] { opacity: 1; }
+}

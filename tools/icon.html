@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<!-- 主屏图标模板：180×180。由 tools/make-assets.sh 截图成 assets/apple-touch-icon.png。
+     和 favicon.svg 的唯一区别是这里带「课」字——180px 下认得出来，
+     16px 的 favicon 里认不出来，所以那边是纯几何的印。 -->
+<style>
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 180px; height: 180px; background: #F5F2EB;
+    display: grid; place-items: center;
+  }
+  .seal {
+    position: relative; width: 128px; height: 128px; background: #B23A26;
+    color: #F5F2EB; display: grid; place-items: center;
+    font-family: "Noto Serif SC", "Songti SC", serif; font-size: 78px; line-height: 1;
+    -webkit-font-smoothing: antialiased;
+  }
+  .seal::before { content: ""; position: absolute; inset: 11px; border: 1px solid currentColor; opacity: .45; }
+</style>
+</head>
+<body>
+  <span class="seal">课</span>
+</body>
+</html>

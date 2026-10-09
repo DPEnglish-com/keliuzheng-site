@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>课蒸馏 · 把一门网课蒸馏成讲义与师承</title>
+<meta name="description" content="贴一个 B 站课程链接，把一门课摊成可检索的讲义、词条与师承。每讲按概念、公式、推导、例题、易混与坑、考点分栏，每条都带一个能点回去的时间锚点。只做个人学习用途的文字化，不下载、不重分发视频与音频。">
+<link rel="canonical" href="https://dpenglish-com.github.io/keliuzheng-site/">
+<meta name="theme-color" content="#F5F2EB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="课蒸馏 · 把一门网课蒸馏成讲义与师承">
+<meta property="og:description" content="视频是流，看完就散了。课蒸馏把一门课摊成可检索的讲义：每讲六栏结构化，术语收成词条，全课连成大纲。">
+<meta property="og:url" content="https://dpenglish-com.github.io/keliuzheng-site/">
+<meta property="og:image" content="https://dpenglish-com.github.io/keliuzheng-site/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- 站点图标：一枚朱印。方形、直角、朱砂填充，内嵌 1px 边款——纯几何，
+     不含文字，所以不依赖系统字体，也不随主题切换。 -->
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
+<script>document.documentElement.className += " js";</script>
+<link rel="stylesheet" href="./styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "课蒸馏",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Android 8.0 及以上",
+  "softwareVersion": "0.1.0",
+  "url": "https://dpenglish-com.github.io/keliuzheng-site/",
+  "description": "把一门 B 站网课蒸馏成可检索的讲义、词条与师承。每讲按概念、公式、推导、例题、易混与坑、考点六栏结构化，每条都带时间锚点。",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+  "featureList": [
+    "贴课程链接或 BV 号，先列清这门课有多少讲",
+    "自己选要蒸馏哪些讲",
+    "优先取课程自带的字幕，没有字幕的讲次才转写",
+    "术语按词条表统一，全课一个写法",
+    "每讲按概念、公式、推导、例题、易混与坑、考点六栏结构化",
+    "每条带时间锚点，能点回视频对应位置",
+    "站内播放并与转写同步",
+    "全课大纲与词条表",
+    "从讲师的说法里提炼方法，之后可以向它提问",
+    "导出 Markdown 与 ZIP",
+    "深色模式"
+  ]
+}
+</script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">跳到主要内容</a>
+
+<header class="site-header" id="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="#top">
+      <span class="seal" aria-hidden="true">课</span>
+      <span>课蒸馏<small>COURSE DISTILLER</small></span>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="主导航">
+      <a href="#why">为什么</a>
+      <a href="#how">怎么做</a>
+      <a href="#look">界面</a>
+      <a href="#features">功能</a>
+      <a href="#limits">边界</a>
+      <a href="#download">下载</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ===================== 首屏 ===================== -->
+  <section class="hero" id="top">
+    <div class="wrap hero-inner">
+      <div class="note hero-kicker">
+        <span class="micro">卷首</span>
+        <p>把一门 B 站网课蒸馏成讲义、词条与师承</p>
+      </div>
+      <h1>看过的课，<br>留在纸上。</h1>
+      <p class="hero-sub">贴一个 B 站课程链接，它把一门课摊成可检索的讲义、词条与师承。每一讲按概念、公式、推导、例题、易混与坑、考点分栏，每条都带一个能点回去的时间锚点。</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="./downloads/Keliuzheng-0.1.0-debug.apk" download>下载 APK</a>
+        <a class="btn btn-line" href="#why">先看看它怎么运作</a>
+      </div>
+      <dl class="facts">
+        <div><dt>版本</dt><dd>0.1.0</dd></div>
+        <div><dt>体积</dt><dd>15.5 MB</dd></div>
+        <div><dt>系统</dt><dd>Android 8.0+</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== 为什么 ===================== -->
+  <section class="section" id="why">
+    <div class="wrap">
+      <h2 class="sec-title" data-reveal>视频是流。<br>看完就散了。</h2>
+      <div class="prose" style="margin-top:24px" data-reveal>
+        <p>一门网课几十个小时。看完一遍，想回头找当时那句关键的话，只能在进度条上来回拖；想把两讲里的同一个概念放在一起看，只能再开一个窗口。</p>
+        <p>课蒸馏换个方向：先把这门课有多少讲列清楚，你选要哪些讲，然后每一讲摊成六栏——概念、公式、推导、例题、易混与坑、考点。术语单独收成词条，全课连成大纲。</p>
+      </div>
+      <div class="note" style="margin-top:28px" data-reveal>
+        <span class="micro">批注</span>
+        <p>它不替你听课。课还是你自己听，它负责把听过的东西留下来。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 怎么做 ===================== -->
+  <section class="section" id="how">
+    <div class="wrap">
+      <h2 class="sec-title" data-reveal>贴一个链接，到一份讲义</h2>
+      <ol class="steps" id="steps">
+        <li data-reveal>
+          <h3>收进书架</h3>
+          <p>贴 B 站课程链接或 BV 号，先把这门课有多少讲列清楚。从 B 站分享进来的链接直接认。</p>
+        </li>
+        <li data-reveal>
+          <h3>选讲次</h3>
+          <p>你决定蒸馏哪些讲，没选的不会动。开始前先给出本次用量。</p>
+        </li>
+        <li data-reveal>
+          <h3>取文字</h3>
+          <p>优先取课程自带的字幕；没有字幕的讲次才需要转写。音频转写完即删，只留下派生出来的文字。</p>
+        </li>
+        <li data-reveal>
+          <h3>校词条</h3>
+          <p>术语按词条表统一，同一个概念全课一个写法，不出现同义异名。</p>
+        </li>
+        <li data-reveal>
+          <h3>结构化</h3>
+          <p>每一讲摊成六栏，每条带一个时间锚点，能点回视频里的对应位置。</p>
+        </li>
+        <li data-reveal>
+          <h3>大纲与词条</h3>
+          <p>全课连成一份大纲，术语收成一张词条表。</p>
+        </li>
+        <li data-reveal>
+          <h3>师承</h3>
+          <p>可选。从讲师的说法里提炼出方法，之后可以向它提问。</p>
+        </li>
+        <li data-reveal>
+          <h3>交付自检</h3>
+          <p>出一份自检报告，说清哪些讲次缺了什么，不假装完整。</p>
+        </li>
+      </ol>
+
+      <h3 class="sub-title" data-reveal>一讲，摊成六栏</h3>
+      <dl class="ledger" data-reveal>
+        <div class="ledger-row"><dt>概念</dt><dd>这一讲立了哪几个说法，各自的定义与边界。</dd></div>
+        <div class="ledger-row"><dt>公式</dt><dd>出现的式子，以及每个符号指的是什么。</dd></div>
+        <div class="ledger-row"><dt>推导</dt><dd>从哪一步到哪一步，中间跳过了什么。</dd></div>
+        <div class="ledger-row"><dt>例题</dt><dd>讲师当场算过的题，连着他讲的解法一起留下。</dd></div>
+        <div class="ledger-row"><dt>易混与坑</dt><dd>他提醒过的地方，以及容易和哪个概念混。</dd></div>
+        <div class="ledger-row"><dt>考点</dt><dd>他说「这里会考」的那几句，单独拎出来。</dd></div>
+      </dl>
+      <div class="note" style="margin-top:24px" data-reveal>
+        <span class="micro">批注</span>
+        <p>六栏是固定的。哪一栏这一讲里没有，就空着——不硬凑，也不拿别的内容填。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 界面 ===================== -->
+  <section class="section" id="look">
+    <div class="wrap">
+      <h2 class="sec-title" data-reveal>界面是纸墨的</h2>
+      <p class="prose" style="margin-top:16px;font-size:15px;color:var(--ink-2)" data-reveal>
+        宣纸为底、焦墨写字、朱砂钤印。分区靠纸色深浅与细线，不靠卡片、阴影和圆角；状态写成文字，不用红黄绿。下面是几屏的实际样子。
+      </p>
+      <div class="gallery">
+        <figure class="shot" data-reveal>
+          <img src="./assets/shots/shelf.webp" width="780" height="1926" loading="lazy" decoding="async"
+               alt="我的书架：两列课程封面书墙，每张封面底边压一条朱砂进度线；顶部一行等宽统计写着这门课共多少讲、已蒸馏几讲">
+          <figcaption>我的书架。封面是墨化过的画面加一条纸色标签条，每张底边压一条朱砂进度线。</figcaption>
+        </figure>
+        <figure class="shot" data-reveal>
+          <img src="./assets/shots/listen.webp" width="780" height="2578" loading="lazy" decoding="async"
+               alt="听课：上方是播放区，下方是转写行，当前那一句左侧压一条朱砂竖线、文字转重墨">
+          <figcaption>听课。转写跟着播放位置走，当前那一句左侧压一条朱砂竖线——高亮不只靠颜色。</figcaption>
+        </figure>
+        <figure class="shot" data-reveal>
+          <img src="./assets/shots/lecture.webp" width="780" height="2604" loading="lazy" decoding="async"
+               alt="讲义长文：宋体小标题与发丝线成对出现，正文首行缩进两字，关键句右侧挂一枚等宽时间码锚点">
+          <figcaption>讲义。长文排版，段落之间靠留白分开，关键句右侧挂时间锚点，点一下回到那一句。</figcaption>
+        </figure>
+        <figure class="shot" data-reveal>
+          <img src="./assets/shots/chat.webp" width="780" height="2106" loading="lazy" decoding="async"
+               alt="师承对话：提问是焦墨填充反白，回答是书页纸加发丝框，左上角一枚朱印作老师">
+          <figcaption>师承。问老师，回答一句一句出来，每条都标出是原话、归纳还是推断。</figcaption>
+        </figure>
+      </div>
+      <div class="note" style="margin-top:28px" data-reveal>
+        <span class="micro">批注</span>
+        <p>这几张是界面的渲染稿，不是真机截屏；版式与用词以 App 里的实际界面为准。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 功能 ===================== -->
+  <section class="section" id="features">
+    <div class="wrap">
+      <h2 class="sec-title" data-reveal>功能</h2>
+      <div class="feature-groups">
+        <div class="group" data-reveal>
+          <h3>听课</h3>
+          <dl>
+            <dt>站内播放</dt>
+            <dd>不用跳去别的应用。只取公开内容，不落盘、不转发。</dd>
+            <dt>转写同步</dt>
+            <dd>转写跟着播放位置走，当前那一句左侧压一条朱砂竖线。高亮不只靠颜色。</dd>
+          </dl>
+        </div>
+        <div class="group" data-reveal>
+          <h3>分析</h3>
+          <dl>
+            <dt>六栏聚合</dt>
+            <dd>把全课的六栏并到一起看：所有公式、所有易混与坑，按讲次筛。</dd>
+            <dt>检索与自检</dt>
+            <dd>全课搜索，命中的句子带你回那一讲；另有一份交付自检报告。</dd>
+          </dl>
+        </div>
+        <div class="group" data-reveal>
+          <h3>教学</h3>
+          <dl>
+            <dt>讲义 · 大纲 · 词条</dt>
+            <dd>三种读法：整篇读、看结构、查术语。同一个知识库，换一个切面。</dd>
+            <dt>导出</dt>
+            <dd>导出 Markdown 或 ZIP，只含讲义、大纲、词条与师承，不含音视频与字幕。</dd>
+          </dl>
+        </div>
+        <div class="group" data-reveal>
+          <h3>师承</h3>
+          <dl>
+            <dt>问老师</dt>
+            <dd>回答是流式的，一句一句出来；每条都标出是原话、归纳还是推断。</dd>
+            <dt>方法</dt>
+            <dd>可选。换到「方法」看它按讲师的哪条路子回答。</dd>
+          </dl>
+        </div>
+      </div>
+      <p class="feature-more" data-reveal>另有：封面书墙的书架 · 增量更新（加新讲只处理新增的） · 深色模式</p>
+    </div>
+  </section>
+
+  <!-- ===================== 边界 ===================== -->
+  <section class="section section-well" id="limits">
+    <div class="wrap">
+      <h2 class="sec-title" data-reveal>只做个人学习的文字化。</h2>
+      <p class="prose" style="margin-top:16px;font-size:15px;color:var(--ink-2)" data-reveal>
+        这不是一句免责声明，是它明确不做的事。下面每一条都能对着它自己的行为核对。
+      </p>
+      <ul class="verify-list" data-reveal>
+        <li>
+          <span class="verify-k">不下载</span>
+          <span class="verify-v">不落盘，不转发</span>
+          <p>站内播放只取公开内容，不把视频或音频存下来，也不提供音视频与字幕的下载。</p>
+        </li>
+        <li>
+          <span class="verify-k">不分发</span>
+          <span class="verify-v">只做你自己的那份</span>
+          <p>不重新分发视频、音频、字幕与课件，不绕过付费墙或 DRM，不批量爬取。</p>
+        </li>
+        <li>
+          <span class="verify-k">转写</span>
+          <span class="verify-v">要你点头</span>
+          <p>课程自带字幕的讲次不走转写。没有字幕时，音频会交给第三方转写服务，这一步由你确认后才开始。</p>
+        </li>
+        <li>
+          <span class="verify-k">凭据</span>
+          <span class="verify-v">只在服务端</span>
+          <p>App 里没有任何服务商凭据，也不需要你配置。所有取用都由服务端代理。</p>
+        </li>
+        <li>
+          <span class="verify-k">可以自由用的</span>
+          <span class="verify-v">你生成的那部分</span>
+          <p>蒸馏出来的讲义、大纲、词条与师承可以自由使用；原始的字幕、音视频与课件不可以。</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== 下载 ===================== -->
+  <section class="section" id="download">
+    <div class="wrap">
+      <h2 class="sec-title" data-reveal>下载</h2>
+      <div class="download-panel" data-reveal>
+        <div class="download-main">
+          <p class="download-note">直接安装，无需应用商店。</p>
+          <a class="btn btn-primary btn-large" href="./downloads/Keliuzheng-0.1.0-debug.apk" download>下载 APK（15.5 MB）</a>
+          <p class="download-hint">首次安装需在系统提示里允许「安装未知来源应用」。当前是内测调试构建，默认连线上后端；要换成自己的服务器，装好后在「设置」里改地址。</p>
+        </div>
+        <dl class="download-specs">
+          <div><dt>版本</dt><dd>0.1.0</dd></div>
+          <div><dt>文件大小</dt><dd>15.5 MB</dd></div>
+          <div><dt>系统要求</dt><dd>Android 8.0 及以上</dd></div>
+          <div><dt>构建类型</dt><dd>debug 内测</dd></div>
+          <div><dt>SHA-256</dt><dd><code class="hash">3fa03047499e4ea80eb10db64dbedc836bf8369d28c4383bd02276a006a8ed0a</code></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="seal seal-lg" aria-hidden="true">课</span>
+      <div>
+        <strong>课蒸馏</strong>
+        <span>把一门网课蒸馏成讲义与师承</span>
+      </div>
+    </div>
+
+    <div class="footer-contact">
+      <p class="micro">作者与反馈</p>
+      <p class="footer-copy" style="margin-top:6px">
+        作者 <strong>肖恩</strong> · 微信 <span class="mono">16659317774</span>（添加请备注 课蒸馏）
+      </p>
+      <div class="footer-links">
+        <a href="https://dpenglish-com.github.io/">从头到脚 · 全部产品</a>
+        <a href="#download">下载 APK</a>
+      </div>
+      <p class="footer-copy" style="margin-top:12px">© <span id="year">2026</span> 课蒸馏 · 只做个人学习用途的文字化，不下载、不重分发视频与音频。</p>
+    </div>
+  </div>
+</footer>
+
+<script src="./main.js" defer></script>
+</body>
+</html>
