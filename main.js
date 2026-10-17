@@ -1,12 +1,7 @@
 /* =========================================================================
    课蒸馏 官网 · 交互
-   与外在 / WorkoutLoop / 问辩几站同一套写法：每次动效都要能一句话说明理由，
    全部一次性、不循环。无滚动劫持、无循环动画、无视差。零依赖。
-
-   与那几站刻意少的两样，因为 INK 卷不允许：
-   · 没有位移式入场——INK 明写「页面切换不做位移」，这里只做淡入；
-   · 没有工序「当前步」跟随——那是 App 里的状态，宣传页上滚动到哪一步
-     不构成信息，只会多烧一处朱砂。
+   · 没有位移式入场——INK 明写「页面切换不做位移」，这里只做淡入。
    ========================================================================= */
 (function () {
   "use strict";
@@ -36,39 +31,6 @@
     if (!header) return null;
     return function () {
       header.classList.toggle("is-scrolled", window.scrollY > 8);
-    };
-  }
-
-  /* ---- 导航：当前在哪个区块（当前＝朱砂，INK 铁律 1 的第二个角色） ---- */
-  function makeNavSpy() {
-    var nav = document.getElementById("site-nav");
-    if (!nav) return null;
-
-    var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
-    var pairs = links.map(function (a) {
-      var section = document.getElementById(a.getAttribute("href").slice(1));
-      return section ? { link: a, section: section } : null;
-    }).filter(Boolean);
-    if (!pairs.length) return null;
-
-    var current = null;
-
-    return function () {
-      var line = window.scrollY + window.innerHeight * 0.34;
-      var active = null;
-      for (var i = 0; i < pairs.length; i++) {
-        if (pairs[i].section.offsetTop <= line) active = pairs[i];
-      }
-      if (active === current) return;
-      if (current) {
-        current.link.classList.remove("is-active");
-        current.link.removeAttribute("aria-current");
-      }
-      current = active;
-      if (current) {
-        current.link.classList.add("is-active");
-        current.link.setAttribute("aria-current", "true");
-      }
     };
   }
 
@@ -109,23 +71,13 @@
     }, 1200);
   }
 
-  /* ---- 截图解码失败兜底：宁可留白，也不要一个碎图框 ---- */
-  function initShotFallback() {
-    Array.prototype.forEach.call(document.querySelectorAll(".shot img"), function (img) {
-      img.addEventListener("error", function () {
-        var fig = img.closest(".shot");
-        if (fig) fig.classList.add("is-broken");
-      });
-    });
-  }
-
   function initYear() {
     var el = document.getElementById("year");
     if (el) el.textContent = String(new Date().getFullYear());
   }
 
   function init() {
-    var updaters = [makeReadProgress(), makeHeaderState(), makeNavSpy()].filter(Boolean);
+    var updaters = [makeReadProgress(), makeHeaderState()].filter(Boolean);
 
     if (updaters.length) {
       var ticking = false;
@@ -144,7 +96,6 @@
     }
 
     initReveal();
-    initShotFallback();
     initYear();
   }
 
