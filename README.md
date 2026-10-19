@@ -11,8 +11,8 @@
 | 文件 | 作用 |
 |---|---|
 | `index.html` | 唯一的页面。SEO / OG / JSON-LD，四块：页头、首屏、下载、页脚 |
-| `styles.css` | 全部样式。token 驱动，设计 token 抄自 App 的 INK 卷 |
-| `main.js` | 交互：阅读进度、页头结构线、入场淡入、页脚年份。零依赖，删了页面仍可读 |
+| `styles.css` | 全部样式。色板抄自 App 的 INK 卷，字阶/间距/动效令牌与母站、PaperEcho 同值 |
+| `main.js` | 交互：阅读进度、页头结构线、入场淡入。零依赖，删了页面仍可读 |
 | `assets/og.png` | 1200×630 分享卡，由 `tools/og.html` 生成 |
 | `assets/apple-touch-icon.png` | 180×180，由 `tools/og.html` 一并生成 |
 | `downloads/` | 站上下发的 APK，见该目录的 `README.md` |
@@ -24,7 +24,12 @@
 
 视觉**不另起一套**，直接用 App 的 INK 卷（`Video to skill/.stitch/DESIGN.md`）：
 宣纸底 `#F5F2EB`、焦墨字 `#0B0B0A`、单色朱砂 `#B23A26` 作强调；标题宋、正文 IBM Plex Sans、
-数字与标签等宽 JetBrains Mono（带 `tabular-nums`）；圆角统一 2px、零阴影、**零图标**。
+数字与标签等宽 JetBrains Mono（带 `tabular-nums`）；圆角统一 4px（`--radius-ctl`）、零阴影、**零图标**。
+
+**与母站、PaperEcho 共用一套骨架**：6 档字阶（`--t-display/title/lead/body/small/micro`）、
+同一组间距与动效令牌（`--gutter/--maxw/--step`、`--dur-micro/ui/reveal`、`--ease/--ease-out-expo`）、
+同一组组件名（`.site-header` / `.btn` / `.site-footer`）。差异只在色板 ——
+这里是宣纸焦墨朱砂，母站是中性深色。改字号、间距、时长一律走令牌，不写死 px。
 
 保留的签名：**朱印**（页头与页脚的方形印）、**等宽尾注**（首屏三项事实）。
 双线报头、左侧批注已随「界面」「怎么做」区块一并撤下，若将来重新加回，照 `.stitch/DESIGN.md` 复现。

@@ -11,9 +11,9 @@
 | 版本 | 0.1.0（versionCode 1）|
 | applicationId | `com.coursedistiller.app` |
 | 构建类型 | debug（内测）|
-| 体积 | 15.5 MB（16,287,290 字节）|
+| 体积 | 15.8 MB（16,523,042 字节）|
 | 系统要求 | Android 8.0 及以上（minSdk 26）|
-| SHA-256 | `3fa03047499e4ea80eb10db64dbedc836bf8369d28c4383bd02276a006a8ed0a` |
+| SHA-256 | `9dc04d441c0e0908f7063466fb691d039f5a1efeced571fd7e5e6a2312112b6a` |
 
 ## 须知
 

@@ -71,11 +71,6 @@
     }, 1200);
   }
 
-  function initYear() {
-    var el = document.getElementById("year");
-    if (el) el.textContent = String(new Date().getFullYear());
-  }
-
   function init() {
     var updaters = [makeReadProgress(), makeHeaderState()].filter(Boolean);
 
@@ -96,7 +91,6 @@
     }
 
     initReveal();
-    initYear();
   }
 
   if (document.readyState === "loading") {
