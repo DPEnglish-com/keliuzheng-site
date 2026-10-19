@@ -58,9 +58,23 @@
 
 ## 换包 / 改版
 
-换 APK：照 `downloads/README.md` 的发布清单，改 `index.html` 里的三处（href、版本与体积、SHA-256）。
+换 APK 用 `tools/publish-apk.sh`，别手工改：
 
-重出分享卡与图标：
+```bash
+cd /Users/ywlukiya/Projects/Video\ to\ skill/androidApp && ./gradlew :app:assembleDebug --no-daemon
+cd /Users/ywlukiya/Projects/keliuzheng-site && sh tools/publish-apk.sh
+```
+
+它会拷包、从 `build.gradle.kts` 读版本号、算体积与 SHA-256，改写 `index.html`、
+`downloads/README.md`、`tools/og.html` 里所有该改的数字，最后重出分享卡与图标。
+
+**它会在包比源码旧时拒绝发布** —— 这正是当初放过旧包的那一步：包在、哈希也对，
+只是包是旧的，于是站点安静地散发了四天没修复的版本。手工换包一定会再犯，所以做成硬检查。
+
+替换都带命中次数断言，页面结构一变就报错退出，而不是安静地少改一处
+（少改一处 = 站上哈希与实际包对不上，用户校验会失败）。脚本是幂等的，重复跑不会改坏。
+
+只改文案、不换包时：
 
 ```bash
 cd /Users/ywlukiya/Projects/keliuzheng-site && sh tools/make-assets.sh
