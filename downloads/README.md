@@ -13,7 +13,7 @@
 | 构建类型 | release（专用 keystore 签名）|
 | 体积 | 13.2 MB（13,802,431 字节）|
 | 系统要求 | Android 8.0 及以上（minSdk 26）|
-| SHA-256 | `3028e385b2e9b5e7dbb66cd7845b6afee4958bf44640c371e18d128aaec03e5a` |
+| SHA-256 | `f4da278327bf6313f924a0000132f6fd7cf297352b43e6a1e9eebae71d44345e` |
 
 ## 须知
 
