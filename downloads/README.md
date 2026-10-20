@@ -19,6 +19,8 @@
 
 - **这是 release 签名包**。签名材料不进仓库，备份在 `~/.coursedistiller/release/`；
   换包只换 APK，不改签名证书。
+- 从 0.1.0 debug 包升级：debug 与 release 签名不同，Android 不允许覆盖安装，**必须先卸载旧版**；
+  课程数据在后端，重装后用同一后端地址仍能读回。
 - 后端地址是**编译期内置**的线上地址，用户可在 App 的「设置」里改。站上已写明这一点。
 - 包从 App 仓库拷：`Video to skill/androidApp/app/build/outputs/apk/release/app-release.apk`。
 
