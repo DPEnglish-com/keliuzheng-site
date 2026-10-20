@@ -7,20 +7,20 @@
 
 | 项 | 值 |
 |---|---|
-| 文件 | `Keliuzheng-0.1.0-debug.apk` |
-| 版本 | 0.1.0（versionCode 1）|
+| 文件 | `Keliuzheng-0.2.0-release.apk` |
+| 版本 | 0.2.0（versionCode 2）|
 | applicationId | `com.coursedistiller.app` |
-| 构建类型 | debug（内测）|
-| 体积 | 15.8 MB（16,523,042 字节）|
+| 构建类型 | release（专用 keystore 签名）|
+| 体积 | 13.2 MB（13,802,431 字节）|
 | 系统要求 | Android 8.0 及以上（minSdk 26）|
-| SHA-256 | `9dc04d441c0e0908f7063466fb691d039f5a1efeced571fd7e5e6a2312112b6a` |
+| SHA-256 | `3028e385b2e9b5e7dbb66cd7845b6afee4958bf44640c371e18d128aaec03e5a` |
 
 ## 须知
 
-- **只有 debug 包**。项目当前没有任何 release 签名配置，所以站上如实标注「debug 内测」。
-  等有了 release 包（`*-release.apk`）再换，别把 debug 包说成正式版。
+- **这是 release 签名包**。签名材料不进仓库，备份在 `~/.coursedistiller/release/`；
+  换包只换 APK，不改签名证书。
 - 后端地址是**编译期内置**的线上地址，用户可在 App 的「设置」里改。站上已写明这一点。
-- 包从 App 仓库拷：`Video to skill/androidApp/app/build/outputs/apk/debug/app-debug.apk`。
+- 包从 App 仓库拷：`Video to skill/androidApp/app/build/outputs/apk/release/app-release.apk`。
 
 ## 发布清单
 
@@ -31,7 +31,7 @@
 - [ ] 新包拷进本目录，文件名带上版本号
 - [ ] `shasum -a 256 <包名>`，更新到站点规格表与上表
 - [ ] 同步 `index.html` 里三处：下载 href、版本与体积、SHA-256
-- [ ] 站点上写明构建类型：debug 包会如实标注「内测调试构建」
+- [ ] 站点上写明构建类型：debug 标「内测调试构建」，release 标「专用 keystore 签名」
 - [ ] 提交：`git add -A && git commit -m "换包：v0.1.x"`
 
 **别手工换包。** 换包最危险的失败不是改错数字（那会被断言拦住），

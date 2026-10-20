@@ -8,7 +8,7 @@ import pathlib
 import re
 import sys
 
-name, size_txt, sz, h, ver = sys.argv[1:6]
+name, size_txt, sz, h, ver, build_type, ver_code = sys.argv[1:8]
 sz = int(sz)
 root = pathlib.Path(__file__).resolve().parent.parent
 
@@ -33,12 +33,29 @@ sub("index.html", r'href="\./downloads/Keliuzheng-[^"]+\.apk"', f'href="./downlo
 sub("index.html", r'(<dt>体积</dt><dd>)[^<]+(</dd>)', rf"\g<1>{size_txt}\g<2>")
 sub("index.html", r'(下载 APK（)[^）]+(）)', rf"\g<1>{size_txt}\g<2>")
 sub("index.html", r'(<code class="hash">)[0-9a-f]+(</code>)', rf"\g<1>{h}\g<2>")
+sub("index.html", r'("softwareVersion": ")[^"]+(")', rf"\g<1>{ver}\g<2>")
+sub("index.html", r'(<dt>版本</dt><dd>)[^<]+(</dd>)', rf"\g<1>{ver}\g<2>", expect=2)
 
 # downloads/README.md：文件、版本、体积、哈希
 # 表格里的空格不统一（有的 `| 值 |`、有的 `| 值|`），所以模式不锚定空格。
 sub("downloads/README.md", r"(\| 文件 \| )`[^`]+`", rf"\g<1>`{name}`")
+sub("downloads/README.md", r"(\| 版本 \| ).+?(\s*\|)",
+    rf"\g<1>{ver}（versionCode {ver_code}）\g<2>")
 sub("downloads/README.md", r"(\| 体积 \| ).+?(\s*\|)", rf"\g<1>{size_txt}（{sz:,} 字节）\g<2>")
 sub("downloads/README.md", r"(\| SHA-256 \| )`[0-9a-f]+`", rf"\g<1>`{h}`")
+if build_type == "release":
+    sub("downloads/README.md", r"(\| 构建类型 \| ).+?(\s*\|)",
+        r"\g<1>release（专用 keystore 签名）\g<2>")
+    # 首次从 debug 切 release 时替换说明；之后再发布时这段已是 release，跳过。
+    p = root / "downloads/README.md"
+    if "只有 debug 包" in p.read_text():
+        sub("downloads/README.md",
+            r"(?s)- \*\*只有 debug 包\*\*。.*?别把 debug 包说成正式版。",
+            "- **这是 release 签名包**。签名材料不进仓库，备份在 `~/.coursedistiller/release/`；\n"
+            "  换包只换 APK，不改签名证书。")
+    if "apk/debug/app-debug.apk" in p.read_text():
+        sub("downloads/README.md", r"app/build/outputs/apk/debug/app-debug\.apk",
+            "app/build/outputs/apk/release/app-release.apk")
 
 # 分享卡：版本与体积
 sub("tools/og.html", r"Android · [\d.]+ · [\d.]+ MB", f"Android · {ver} · {size_txt}")
