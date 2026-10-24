@@ -71,6 +71,55 @@
     }, 1200);
   }
 
+
+  /* ---- 宣传片弹层：点开才加载视频（preload=none），关闭即暂停 ---- */
+  function initFilm() {
+    var dlg = document.getElementById("film-dialog");
+    var video = document.getElementById("film-video");
+    if (!dlg || !video) return;
+
+    var openers = document.querySelectorAll("[data-film-open]");
+    var closers = dlg.querySelectorAll("[data-film-close]");
+    var lastFocus = null;
+
+    function open() {
+      lastFocus = document.activeElement;
+      if (!dlg.open) {
+        if (typeof dlg.showModal === "function") dlg.showModal();
+        else dlg.setAttribute("open", "");
+      }
+      document.body.classList.add("film-open");
+    }
+
+    function close() {
+      video.pause();
+      if (dlg.open && typeof dlg.close === "function") dlg.close();
+      else dlg.removeAttribute("open");
+      document.body.classList.remove("film-open");
+      if (lastFocus && typeof lastFocus.focus === "function") lastFocus.focus();
+    }
+
+    Array.prototype.forEach.call(openers, function (btn) {
+      btn.addEventListener("click", open);
+    });
+    Array.prototype.forEach.call(closers, function (btn) {
+      btn.addEventListener("click", close);
+    });
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg) close();
+    });
+    dlg.addEventListener("close", function () {
+      video.pause();
+      document.body.classList.remove("film-open");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && dlg.open) {
+        e.preventDefault();
+        close();
+      }
+    });
+  }
+
   function init() {
     var updaters = [makeReadProgress(), makeHeaderState()].filter(Boolean);
 
@@ -91,6 +140,7 @@
     }
 
     initReveal();
+    initFilm();
   }
 
   if (document.readyState === "loading") {

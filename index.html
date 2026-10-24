@@ -18,6 +18,10 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:video" content="https://dpenglish-com.github.io/keliuzheng-site/assets/film/promo-56s.mp4">
+<meta property="og:video:type" content="video/mp4">
+<meta property="og:video:width" content="1920">
+<meta property="og:video:height" content="1080">
 
 <!-- 站点图标：一枚朱印。纯几何，不含文字，不依赖系统字体。 -->
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
@@ -62,6 +66,7 @@
       <p class="hero-sub">把一门网课蒸馏成可检索的讲义与师承。</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="./downloads/Keliuzheng-0.3.0-release.apk" download>下载 APK</a>
+        <button class="film-link" type="button" data-film-open>看 56 秒宣传片</button>
       </div>
       <dl class="facts">
         <div><dt>版本</dt><dd>0.3.0</dd></div>
@@ -98,6 +103,19 @@
     <a class="footer-link" href="https://dpenglish-com.github.io/">从头到脚</a>
   </div>
 </footer>
+
+
+<dialog class="film-dialog" id="film-dialog" aria-labelledby="film-title">
+  <div class="film-head">
+    <p class="film-title" id="film-title">课蒸馏 · 产品宣传片<span class="mono">56 秒 · 1080P · 无旁白</span></p>
+    <button class="film-close" type="button" data-film-close>关闭</button>
+  </div>
+  <video class="film-video" id="film-video" controls playsinline preload="none" poster="./assets/film/poster.jpg">
+    <source src="./assets/film/promo-56s.mp4" type="video/mp4">
+    这段宣传片需要支持 HTML5 视频的浏览器观看。
+  </video>
+  <p class="film-note">实机录制 · 真实蒸馏数据 · 原创配乐</p>
+</dialog>
 
 <script src="./main.js" defer></script>
 </body>
