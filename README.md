@@ -10,12 +10,12 @@
 
 | 文件 | 作用 |
 |---|---|
-| `index.html` | 唯一的页面。SEO / OG / JSON-LD，四块：页头、首屏、下载、页脚 |
+| `index.html` | 唯一的页面。SEO / OG / JSON-LD，五块：页头、首屏、宣传片、下载、页脚 |
 | `styles.css` | 全部样式。色板抄自 App 的 INK 卷，字阶/间距/动效令牌与母站、PaperEcho 同值 |
-| `main.js` | 交互：阅读进度、页头结构线、入场淡入、宣传片弹层。零依赖，删了页面仍可读 |
+| `main.js` | 交互：阅读进度、页头结构线、入场淡入。零依赖，删了页面仍可读 |
 | `assets/og.png` | 1200×630 分享卡，由 `tools/og.html` 生成 |
 | `assets/apple-touch-icon.png` | 180×180，由 `tools/og.html` 一并生成 |
-| `assets/film/promo-56s.mp4` | 产品宣传片（56 秒、1080P、无旁白）：真实 App 实机操作录制 + 原创配乐。首屏次操作点开弹层播放，`preload=none`，不点不加载 |
+| `assets/film/promo-56s.mp4` | 产品宣传片（56 秒、1080P、无旁白）：真实 App 实机操作录制 + 原创配乐。首屏下方直接播放，原生 `controls`，`preload=metadata` |
 | `assets/film/poster.jpg` | 宣传片封面帧（片名卡） |
 | `downloads/` | 站上下发的 APK，见该目录的 `README.md` |
 | `favicon.svg` | 一枚朱印。纯几何、不含文字，不依赖系统字体 |

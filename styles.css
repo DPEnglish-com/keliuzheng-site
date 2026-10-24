@@ -329,76 +329,27 @@ code { font-family: var(--mono); font-size: .92em; }
 }
 
 /* ---------------------------------------------------------------- 宣传片 */
-.hero-actions {
-  display: flex; flex-wrap: wrap; align-items: center;
-  gap: 18px 28px;
-}
-
-/* 次操作：文字 + 发丝下划线，触控高度仍 ≥ 48px；不用图标 */
-.film-link {
-  appearance: none; background: none; border: 0;
-  min-height: 48px; padding: 0 2px;
-  font: inherit; font-size: var(--t-small); color: var(--ink-2);
-  text-decoration: underline;
-  text-decoration-color: var(--rule);
-  text-underline-offset: 4px;
-  cursor: pointer;
-  border-radius: 0;
-}
-.film-link:hover { text-decoration-color: var(--ink-2); }
-
-body.film-open { overflow: hidden; }
-
-.film-dialog {
-  width: min(1180px, calc(100vw - 2 * var(--gutter)));
-  max-width: 1180px;
-  padding: 0;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-ctl);
-  background: var(--canvas);
-  color: var(--ink-3);
-  box-shadow: none;
-}
-.film-dialog::backdrop { background: rgba(11, 11, 10, .78); }
-
-.film-head {
-  display: flex; align-items: baseline; justify-content: space-between;
-  gap: 16px; padding: 14px var(--inline) 12px;
-  border-bottom: 1px solid var(--hair);
-}
-.film-title {
-  margin: 0;
-  font-family: var(--serif); font-size: var(--t-lead); color: var(--ink);
-}
-.film-title .mono {
-  margin-left: 10px;
-  font-family: var(--mono); font-size: var(--t-micro);
-  letter-spacing: .16em; color: var(--ink-4);
-  font-variant-numeric: tabular-nums;
-}
-.film-close {
-  appearance: none; background: none; border: 0;
-  min-height: 44px; padding: 8px 2px;
-  font: inherit; font-size: var(--t-small); color: var(--ink-4);
-  text-decoration: underline; text-decoration-color: var(--rule);
-  text-underline-offset: 4px; cursor: pointer;
-}
-.film-close:hover { color: var(--ink-2); }
+.film { padding: 0 0 var(--step); scroll-margin-top: 72px; }
 
 .film-video {
   display: block; width: 100%; height: auto;
-  aspect-ratio: 16 / 9; background: #0B0B0A;
+  aspect-ratio: 16 / 9;
+  background: #0B0B0A;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-ctl);
 }
 
-.film-note {
-  margin: 0; padding: 12px var(--inline) 14px;
-  border-top: 1px solid var(--hair);
-  font-family: var(--mono); font-size: var(--t-micro);
-  letter-spacing: .14em; color: var(--ink-4);
+.film-caption {
+  display: flex; flex-wrap: wrap; align-items: baseline;
+  gap: 6px 20px; margin: 14px 0 0;
+  font-size: var(--t-micro); color: var(--ink-4);
+}
+.film-caption .mono {
+  font-family: var(--mono); letter-spacing: .14em;
+  color: var(--ink-2); font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 619px) {
-  .film-dialog { width: calc(100vw - 20px); }
-  .film-head { padding: 12px 12px 10px; }
-  .film-title .mono { display: block; margin: 6px 0 0; }
+  .film-caption { display: block; }
+  .film-caption .mono { display: block; margin-bottom: 4px; }
 }
