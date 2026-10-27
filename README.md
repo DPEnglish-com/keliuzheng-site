@@ -10,9 +10,11 @@
 
 | 文件 | 作用 |
 |---|---|
-| `index.html` | 唯一的页面。SEO / OG / JSON-LD，四块：首屏、流程演示、下载、页脚 |
+| `index.html` | 唯一的页面。SEO / OG / JSON-LD，五块：首屏、宣传片、流程演示、下载、页脚 |
 | `styles.css` | 全部样式。色板取自 PaperEcho 的 INK：纸面、焦墨、单一朱红；直角、细线、零投影 |
 | `main.js` | 交互：主题、阅读进度、四步演示、六栏切换、复制校验值。零依赖，无外部请求 |
+| `assets/film/promo-56s.mp4` | 56 秒产品宣传片（1080P、无旁白），首屏下方的 `<video>` 直接引用 |
+| `assets/film/poster.jpg` | 宣传片的封面图，`preload="metadata"` 时不下载正片 |
 | `assets/og.png` | 1200×630 分享卡，由 `tools/og.html` 生成 |
 | `assets/apple-touch-icon.png` | 180×180，由 `tools/icon.html` 生成 |
 | `assets/fonts/keliuzheng-serif.woff2` | 自托管思源宋体子集（OFL），由 `tools/fonts/subset_serif.py` 生成 |
@@ -30,7 +32,7 @@
 暗色模式把纸变墨、墨变纸，朱红提亮；所有颜色只从 `styles.css` 的 `:root` 取值。改标题或新增文案后重跑
 `python3 tools/fonts/subset_serif.py`，否则新字会回退到系统字体；重子集化后把 CSS 与预载里的 `?v=` 加一。
 
-页面只保留四块：首屏、流程演示、下载、页脚。**流程演示**是唯一的解释性内容，
+页面只保留五块：首屏、宣传片、流程演示、下载、页脚。**流程演示**是唯一的解释性内容，
 也是产品的第一体验：贴链接 → 选讲次 → 蒸馏 → 读讲义。它完全在本地跑，
 明确标注「示例」「不联网」，不调用后端、不承诺真实结果。除这一段外，
 不堆功能清单、截图、FAQ 或免责声明。
