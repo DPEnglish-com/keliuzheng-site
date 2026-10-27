@@ -1,125 +1,351 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>课蒸馏</title>
-<meta name="description" content="把一门网课蒸馏成可检索的讲义与师承。">
+<title>CourseDistill 课蒸馏 · 把网课整理成讲义</title>
+<meta name="description" content="贴一条课程链接，把一门网课整理成可检索的讲义。一讲六栏，每条都带能回到原话的时间码。">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F4F1EA">
 <link rel="canonical" href="https://dpenglish-com.github.io/keliuzheng-site/">
-<meta name="theme-color" content="#F5F2EB" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)">
-
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="课蒸馏">
-<meta property="og:description" content="把一门网课蒸馏成可检索的讲义与师承。">
+<meta property="og:title" content="CourseDistill 课蒸馏 · 看过的课，留在纸上">
+<meta property="og:description" content="贴一条课程链接，把网课整理成可检索的讲义。一讲六栏，每条都带时间码。">
 <meta property="og:url" content="https://dpenglish-com.github.io/keliuzheng-site/">
 <meta property="og:image" content="https://dpenglish-com.github.io/keliuzheng-site/assets/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="zh_CN">
 <meta name="twitter:card" content="summary_large_image">
-<meta property="og:video" content="https://dpenglish-com.github.io/keliuzheng-site/assets/film/promo-56s.mp4">
-<meta property="og:video:type" content="video/mp4">
-<meta property="og:video:width" content="1920">
-<meta property="og:video:height" content="1080">
-
-<!-- 站点图标：一枚朱印。纯几何，不含文字，不依赖系统字体。 -->
-<link rel="icon" href="./favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
-<script>document.documentElement.className += " js";</script>
-<link rel="stylesheet" href="./styles.css">
-
+<script>
+(function () {
+  var t;
+  try { t = localStorage.getItem('keliuzheng-theme'); } catch (e) {}
+  if (t !== 'light' && t !== 'dark') {
+    t = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  document.documentElement.setAttribute('data-theme', t);
+  document.documentElement.classList.add('js');
+  var m = document.querySelector('meta[name="theme-color"]');
+  if (m) m.setAttribute('content', t === 'dark' ? '#0C0C0C' : '#F4F1EA');
+})();
+</script>
+<link rel="preload" href="assets/fonts/keliuzheng-serif.woff2?v=2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "课蒸馏",
+  "name": "CourseDistill 课蒸馏",
   "applicationCategory": "EducationalApplication",
   "operatingSystem": "Android 8.0 及以上",
   "softwareVersion": "0.3.0",
   "url": "https://dpenglish-com.github.io/keliuzheng-site/",
-  "description": "把一门网课蒸馏成可检索的讲义与师承。",
+  "description": "把一门网课整理成可检索的讲义，一讲六栏，每条都带时间码。",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" }
 }
 </script>
 </head>
 <body>
+<a class="skip" href="#main">跳到主要内容</a>
+<div class="read-progress" aria-hidden="true"><span id="read-progress-fill"></span></div>
 
-<a class="skip-link" href="#main">跳到主要内容</a>
-
-<header class="site-header" id="site-header">
-  <div class="wrap header-inner">
-    <a class="brand" href="#top">
+<header class="site-head" id="site-head">
+  <div class="wrap head-in">
+    <a class="brand" href="#top" aria-label="课 CourseDistill 课蒸馏 首页">
       <span class="seal" aria-hidden="true">课</span>
-      <span>课蒸馏</span>
+      <span class="brand-en">CourseDistill</span>
+      <span class="brand-cn">课蒸馏</span>
     </a>
-    <a class="btn btn-line btn-small" href="#download">下载</a>
+    <nav class="nav" aria-label="页面导航">
+      <a href="#flow" data-nav="flow">流程</a>
+      <a href="#download" data-nav="download">下载</a>
+    </nav>
+    <div class="head-actions">
+      <button class="theme" id="theme-toggle" type="button">夜读</button>
+      <a class="btn btn-solid btn-small head-dl" href="downloads/Keliuzheng-0.3.0-release.apk" download>下载 APK</a>
+    </div>
   </div>
 </header>
 
 <main id="main">
-
-  <!-- ===================== 首屏 ===================== -->
-  <section class="hero" id="top">
-    <div class="wrap">
-      <h1>看过的课，<br>留在纸上。</h1>
-      <p class="hero-sub">把一门网课蒸馏成可检索的讲义与师承。</p>
+  <section class="hero wrap" id="top">
+    <div class="hero-copy">
+      <h1>看过的课，<br>留在纸上<span class="end">。</span></h1>
+      <p class="hero-lead">贴一条链接，把网课整理成讲义。<br>每讲六栏，每条都带时间码。</p>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="./downloads/Keliuzheng-0.3.0-release.apk" download>下载 APK</a>
+        <a class="btn btn-solid btn-lg" href="downloads/Keliuzheng-0.3.0-release.apk" download>下载 APK<span class="btn-note">13.2 MB</span></a>
+        <a class="btn btn-line btn-lg" href="#flow">先走一遍流程</a>
       </div>
-      <dl class="facts">
-        <div><dt>版本</dt><dd>0.3.0</dd></div>
-        <div><dt>体积</dt><dd>13.2 MB</dd></div>
-        <div><dt>系统</dt><dd>Android 8.0+</dd></div>
-      </dl>
+      <p class="hero-meta mono">Android 8.0+<span>·</span>0.3.0</p>
+    </div>
+
+    <figure class="hero-sheet">
+      <div class="sheet-wrap">
+        <article class="sheet">
+          <header class="sheet-head mono">
+            <span>第 3 讲 / 共 12 讲</span>
+            <span class="sheet-status">已蒸馏</span>
+          </header>
+          <h2>秩与解的结构</h2>
+          <p class="sheet-sub mono">21:08 · 六栏 · 5 个锚点</p>
+          <ul class="sheet-rows">
+            <li class="is-current"><span class="no mono">01</span><span class="k">概念</span><span class="v">秩是行空间的维数。</span><span class="t mono">00:42</span></li>
+            <li><span class="no mono">02</span><span class="k">公式</span><span class="v">r(A) + dim N(A) = n</span><span class="t mono">04:18</span></li>
+            <li><span class="no mono">03</span><span class="k">例题</span><span class="v">化行阶梯形，数非零行。</span><span class="t mono">12:04</span></li>
+            <li><span class="no mono">04</span><span class="k">易混</span><span class="v">行秩等于列秩，但不是行数。</span><span class="t mono">16:37</span></li>
+          </ul>
+          <p class="sheet-foot mono"><span>已读 62%</span><span>继续读</span></p>
+        </article>
+      </div>
+      <figcaption>六栏不是摘要，是按用途拆开的读法。</figcaption>
+    </figure>
+  </section>
+
+  <section class="flow-band" id="flow">
+    <div class="wrap">
+      <header class="flow-head">
+        <h2>先走一遍。</h2>
+        <p>不联网，用示例课程。<span class="flow-time mono">四步 · 约三十秒</span></p>
+      </header>
+
+      <div class="app" id="demo" data-step="1">
+        <div class="app-bar">
+          <span class="app-title mono">示例课 · 线性代数</span>
+          <ol class="stepper" aria-label="流程进度">
+            <li class="is-current" data-step-label="1" aria-current="step"><span>01</span>贴链接</li>
+            <li data-step-label="2"><span>02</span>选讲次</li>
+            <li data-step-label="3"><span>03</span>蒸馏</li>
+            <li data-step-label="4"><span>04</span>讲义</li>
+          </ol>
+        </div>
+
+        <div class="app-body">
+          <section class="panel" data-panel="1" aria-labelledby="panel-1-title">
+            <div class="panel-in">
+              <p class="panel-step mono">01</p>
+              <h3 id="panel-1-title" tabindex="-1">课程从一条链接开始。</h3>
+              <p class="panel-lead">原生字幕优先；没有字幕，再走转写。</p>
+              <form class="link-form" id="link-form" novalidate>
+                <label class="field-label mono" for="course-url">课程链接</label>
+                <div class="field" id="url-field">
+                  <span class="field-prefix" aria-hidden="true">https://</span>
+                  <input id="course-url" name="url" type="text" inputmode="url" autocomplete="off" spellcheck="false" value="www.bilibili.com/video/BV1xx411c7mD" aria-describedby="url-hint">
+                </div>
+                <p class="field-hint" id="url-hint" aria-live="polite">本地示例，不会真的解析这条链接。</p>
+                <div class="panel-actions">
+                  <button class="btn btn-solid" type="submit" id="parse-btn">走一遍示例</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <section class="panel" data-panel="2" aria-labelledby="panel-2-title" hidden>
+            <div class="panel-in">
+              <p class="panel-step mono">02</p>
+              <div class="pick-head">
+                <div>
+                  <h3 id="panel-2-title" tabindex="-1">要读哪几讲？</h3>
+                  <p class="panel-lead mono" id="found-count">示例课程 · 4 讲</p>
+                </div>
+                <button class="text-btn" type="button" id="toggle-all">取消全选</button>
+              </div>
+              <ul class="episodes" id="episodes">
+                <li>
+                  <label class="episode">
+                    <input type="checkbox" value="1" checked>
+                    <span class="check" aria-hidden="true"></span>
+                    <span class="ep-no mono">01</span>
+                    <span class="ep-name">向量与线性空间</span>
+                    <span class="ep-meta mono">18:42</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="episode">
+                    <input type="checkbox" value="2" checked>
+                    <span class="check" aria-hidden="true"></span>
+                    <span class="ep-no mono">02</span>
+                    <span class="ep-name">矩阵与线性变换</span>
+                    <span class="ep-meta mono">24:16</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="episode">
+                    <input type="checkbox" value="3" checked>
+                    <span class="check" aria-hidden="true"></span>
+                    <span class="ep-no mono">03</span>
+                    <span class="ep-name">秩与解的结构</span>
+                    <span class="ep-meta mono">21:08</span>
+                  </label>
+                </li>
+                <li>
+                  <label class="episode">
+                    <input type="checkbox" value="4" checked>
+                    <span class="check" aria-hidden="true"></span>
+                    <span class="ep-no mono">04</span>
+                    <span class="ep-name">特征值与特征向量</span>
+                    <span class="ep-meta mono">27:35</span>
+                  </label>
+                </li>
+              </ul>
+              <div class="panel-actions split">
+                <button class="text-btn" type="button" id="back-1">返回</button>
+                <div class="actions-right">
+                  <span class="sel-count mono" id="sel-count">已选 4 讲</span>
+                  <button class="btn btn-solid" type="button" id="start-btn">开始蒸馏</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel" data-panel="3" aria-labelledby="panel-3-title" hidden>
+            <div class="panel-in">
+              <p class="panel-step mono">03</p>
+              <div class="distill-head">
+                <div>
+                  <h3 id="panel-3-title" tabindex="-1">示例在跑。</h3>
+                  <p class="panel-lead">可以先跳过，直接看讲义。</p>
+                </div>
+                <span class="mono" id="distill-percent">0%</span>
+              </div>
+              <div class="progress" id="distill-progress" role="progressbar" aria-labelledby="panel-3-title" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="distill-fill"></span></div>
+              <ul class="jobs" id="jobs"></ul>
+              <div class="panel-actions split">
+                <button class="text-btn" type="button" id="skip-btn">直接看结果</button>
+                <button class="btn btn-solid" type="button" id="read-btn" hidden>看讲义样张</button>
+              </div>
+              <p class="demo-note mono" id="distill-live" aria-live="polite">演示已加速。</p>
+            </div>
+          </section>
+
+          <section class="panel" data-panel="4" aria-labelledby="panel-4-title" hidden>
+            <div class="panel-in">
+              <p class="panel-step mono">04</p>
+              <div class="reader-head">
+                <div>
+                  <p class="reader-course mono">示例课 · 线性代数</p>
+                  <h3 id="panel-4-title" tabindex="-1">秩与解的结构</h3>
+                </div>
+                <div class="reader-pick" id="reader-pick" hidden>
+                  <label class="field-label mono" for="reader-episode">已选讲次</label>
+                  <select class="reader-select mono" id="reader-episode"></select>
+                </div>
+                <span class="reader-meta mono" id="reader-meta">第 3 讲 · 21:08</span>
+              </div>
+
+              <div class="reader">
+                <div class="reader-tabs" role="tablist" aria-label="讲义六栏">
+                  <button role="tab" id="tab-1" aria-controls="pane-1" aria-selected="true" tabindex="0" class="is-active"><span class="mono">01</span>概念</button>
+                  <button role="tab" id="tab-2" aria-controls="pane-2" aria-selected="false" tabindex="-1"><span class="mono">02</span>公式</button>
+                  <button role="tab" id="tab-3" aria-controls="pane-3" aria-selected="false" tabindex="-1"><span class="mono">03</span>推导</button>
+                  <button role="tab" id="tab-4" aria-controls="pane-4" aria-selected="false" tabindex="-1"><span class="mono">04</span>例题</button>
+                  <button role="tab" id="tab-5" aria-controls="pane-5" aria-selected="false" tabindex="-1"><span class="mono">05</span>易混</button>
+                  <button role="tab" id="tab-6" aria-controls="pane-6" aria-selected="false" tabindex="-1"><span class="mono">06</span>考点</button>
+                </div>
+
+                <div class="reader-panes">
+                  <section class="pane is-active" role="tabpanel" id="pane-1" aria-labelledby="tab-1" tabindex="0">
+                    <p>秩是行空间的维数，也等于列空间的维数；它衡量矩阵独立信息的多少。</p>
+                    <button class="stamp" type="button" aria-expanded="false" aria-controls="quote-1">00:42 · 示例原文</button>
+                    <blockquote class="quote" id="quote-1" hidden>“行秩和列秩相等，这是结论；先抓住行空间，秩就有定义了。”</blockquote>
+                  </section>
+
+                  <section class="pane" role="tabpanel" id="pane-2" aria-labelledby="tab-2" tabindex="0" hidden>
+                    <p>A 有 n 列时，r(A) + dim N(A) = n。列满秩只保证“有解时唯一”，不是无条件有唯一解。</p>
+                    <p class="formula mono">r(A) + dim N(A) = n</p>
+                    <button class="stamp" type="button" aria-expanded="false" aria-controls="quote-2">04:18 · 示例原文</button>
+                    <blockquote class="quote" id="quote-2" hidden>“先看列数，再看秩。解的自由度，就是列数减秩。”</blockquote>
+                  </section>
+
+                  <section class="pane" role="tabpanel" id="pane-3" aria-labelledby="tab-3" tabindex="0" hidden>
+                    <p>初等行变换不改变行空间；化成行阶梯形后，非零行的数量就是秩。</p>
+                    <button class="stamp" type="button" aria-expanded="false" aria-controls="quote-3">07:05 · 示例原文</button>
+                    <blockquote class="quote" id="quote-3" hidden>“行变换只是在换一组基，空间本身没动，所以秩不会变。”</blockquote>
+                  </section>
+
+                  <section class="pane" role="tabpanel" id="pane-4" aria-labelledby="tab-4" tabindex="0" hidden>
+                    <p>A 是 3×5 矩阵且 r(A)=3 时，dim N(A)=5−3=2。减的是列数，不是行数。</p>
+                    <button class="stamp" type="button" aria-expanded="false" aria-controls="quote-4">12:04 · 示例原文</button>
+                    <blockquote class="quote" id="quote-4" hidden>“我不急着解方程，先把秩数出来，后面就只剩写参数。”</blockquote>
+                  </section>
+
+                  <section class="pane" role="tabpanel" id="pane-5" aria-labelledby="tab-5" tabindex="0" hidden>
+                    <p>r(A+B) ≤ r(A)+r(B)，等号只是特例；r(AB) ≤ min{r(A), r(B)}。</p>
+                    <button class="stamp" type="button" aria-expanded="false" aria-controls="quote-5">16:37 · 示例原文</button>
+                    <blockquote class="quote" id="quote-5" hidden>“rank(A+B) 最多是两者之和，等号成立是特例，不是规律。”</blockquote>
+                  </section>
+
+                  <section class="pane" role="tabpanel" id="pane-6" aria-labelledby="tab-6" tabindex="0" hidden>
+                    <p>非齐次方程 Ax=b 有解，当且仅当 r(A)=r([A|b])；有解时自由度是 n−r(A)。</p>
+                    <button class="stamp" type="button" aria-expanded="false" aria-controls="quote-6">18:32 · 示例原文</button>
+                    <blockquote class="quote" id="quote-6" hidden>“参数题不是难题，它只是把秩的讨论拆成了几种情况。”</blockquote>
+                  </section>
+                </div>
+              </div>
+
+              <div class="panel-actions split">
+                <button class="text-btn" type="button" id="restart">重新走一遍</button>
+                <a class="btn btn-solid" href="#download">下载 APK</a>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <noscript><p class="noscript">流程演示需要 JavaScript；下载与安装信息不受影响。</p></noscript>
     </div>
   </section>
 
-
-  <!-- ===================== 宣传片 ===================== -->
-  <section class="film" id="film" aria-label="产品宣传片">
-    <div class="wrap">
-      <video class="film-video" controls playsinline preload="metadata" poster="./assets/film/poster.jpg">
-        <source src="./assets/film/promo-56s.mp4" type="video/mp4">
-        这段宣传片需要支持 HTML5 视频的浏览器观看。
-      </video>
-      <p class="film-caption">
-        <span class="mono">课蒸馏 · 产品宣传片 · 56 秒 · 1080P · 无旁白</span>
-        <span>实机录制 · 真实蒸馏数据 · 原创配乐</span>
-      </p>
-    </div>
-  </section>
-
-  <!-- ===================== 下载 ===================== -->
-  <section class="section" id="download">
-    <div class="wrap">
-      <div class="download-panel" data-reveal>
-        <a class="btn btn-primary btn-large" href="./downloads/Keliuzheng-0.3.0-release.apk" download>下载 APK（13.2 MB）</a>
-        <p class="download-hint">首次安装需在系统提示里允许「安装未知来源应用」。</p>
-        <p class="download-hint">从 0.1.0 debug 包升级：签名不同，需先卸载旧版再安装。课程数据在后端，不会丢。</p>
-        <dl class="download-specs">
+  <section class="download wrap" id="download">
+    <div class="download-card">
+      <div class="download-main">
+        <h2>把它装进手机。</h2>
+        <p class="download-sub mono">release 0.3.0 · Android 8.0+ · 13.2 MB</p>
+        <div class="download-actions">
+          <a class="btn btn-paper btn-lg" href="downloads/Keliuzheng-0.3.0-release.apk" download>下载 APK</a>
+        </div>
+      </div>
+      <div class="download-side">
+        <dl class="download-facts">
           <div><dt>版本</dt><dd>0.3.0</dd></div>
-          <div><dt>系统要求</dt><dd>Android 8.0 及以上</dd></div>
-          <div><dt>SHA-256</dt><dd><code class="hash">c7a06d718fb30bafcba0e6e6f67def2c9f37c192f16b41f948a894933602aa70</code></dd></div>
+          <div><dt>体积</dt><dd>13.2 MB</dd></div>
+          <div><dt>系统</dt><dd>Android 8.0+</dd></div>
+          <div><dt>构建</dt><dd>release</dd></div>
         </dl>
+        <details class="fold">
+          <summary>安装与升级</summary>
+          <ol>
+            <li>下载后打开 APK。</li>
+            <li>按系统提示，允许安装未知来源应用。</li>
+            <li>从 0.1.0 debug 升级：先卸载旧版；课程数据在后端，不会丢。</li>
+          </ol>
+        </details>
+        <details class="fold">
+          <summary>SHA-256</summary>
+          <code id="sha">c7a06d718fb30bafcba0e6e6f67def2c9f37c192f16b41f948a894933602aa70</code>
+          <button class="text-btn copy-btn" id="copy-sha" type="button">复制校验值</button>
+        </details>
       </div>
     </div>
   </section>
-
 </main>
 
-<footer class="site-footer" id="footer">
-  <div class="wrap footer-inner">
-    <div class="footer-brand">
-      <span class="seal seal-lg" aria-hidden="true">课</span>
-      <strong>课蒸馏</strong>
+<footer class="site-foot wrap">
+  <div class="foot-in">
+    <p class="foot-brand"><span class="seal seal-sm" aria-hidden="true">课</span><span class="foot-en mono">CourseDistill</span><span class="foot-cn">课蒸馏</span></p>
+    <p class="foot-meta">作者 肖恩 · 微信 16659317774 · 备注 课蒸馏</p>
+    <div class="foot-links">
+      <a href="https://dpenglish-com.github.io/">从头到脚</a>
+      <a href="https://dpenglish-com.github.io/paperecho-site/">PaperEcho</a>
+      <a href="#top">回到顶部</a>
     </div>
-    <a class="footer-link" href="https://dpenglish-com.github.io/">从头到脚</a>
+    <p class="foot-base mono">© <span id="year">2026</span></p>
   </div>
 </footer>
 
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-
-<script src="./main.js" defer></script>
+<script src="main.js"></script>
 </body>
 </html>

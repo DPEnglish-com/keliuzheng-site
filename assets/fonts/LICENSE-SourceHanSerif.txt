@@ -1,0 +1,17 @@
+Source Han Serif SC (思源宋体) — SIL Open Font License 1.1
+============================================================
+
+本应用内嵌的是该字体的子集（仅保留应用实际用到的字形），
+随 APK 分发，遵循 SIL Open Font License 1.1。
+
+版权：Copyright © 2017 Adobe Systems Incorporated (http://www.adobe.com/), with Reserved Font Name 'Source'.
+
+授权声明（取自字体自身 name 表）：
+This Font Software is licensed under the SIL Open Font License, Version 1.1. This Font Software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the SIL Open Font License for the specific language, permissions and limitations governing your use of this Font Software.
+
+完整授权文本：http://scripts.sil.org/OFL
+字体版本：Version 1.000;PS 1;hotconv 16.6.53;makeotf.lib2.5.65590
+字体全名：Source Han Serif SC Medium
+
+子集化脚本：tools/fonts/subset_ink_serif.py
+源文件：SourceHanSerifSC-Medium.otf（用户本机字体库）

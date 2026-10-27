@@ -28,13 +28,16 @@ def sub(path: str, pattern: str, repl: str, expect: int = 1) -> None:
 
 
 print("改写：")
-# index.html：下载 href（首屏 + 下载区各一处）、体积（规格表 + 按钮文案）、哈希
-sub("index.html", r'href="\./downloads/Keliuzheng-[^"]+\.apk"', f'href="./downloads/{name}"', expect=2)
-sub("index.html", r'(<dt>体积</dt><dd>)[^<]+(</dd>)', rf"\g<1>{size_txt}\g<2>")
-sub("index.html", r'(下载 APK（)[^）]+(）)', rf"\g<1>{size_txt}\g<2>")
-sub("index.html", r'(<code class="hash">)[0-9a-f]+(</code>)', rf"\g<1>{h}\g<2>")
+# index.html：三处下载链接、版本（JSON-LD / 首屏 / 下载区）、体积（按钮 / 下载区）、哈希
+sub("index.html", r'href="(?:\./)?downloads/Keliuzheng-[^"]+\.apk"', f'href="downloads/{name}"', expect=3)
 sub("index.html", r'("softwareVersion": ")[^"]+(")', rf"\g<1>{ver}\g<2>")
-sub("index.html", r'(<dt>版本</dt><dd>)[^<]+(</dd>)', rf"\g<1>{ver}\g<2>", expect=2)
+sub("index.html", r'(<span class="btn-note">)[^<]+(</span>)', rf"\g<1>{size_txt}\g<2>")
+sub("index.html", r'(<p class="hero-meta mono">Android 8\.0\+<span>·</span>)[^<]+(</p>)', rf"\g<1>{ver}\g<2>")
+sub("index.html", r'(<p class="download-sub mono">release )[\d.]+( · Android 8\.0\+ · )[\d.]+( MB</p>)',
+    rf"\g<1>{ver}\g<2>{size_txt}\g<3>")
+sub("index.html", r'(<dt>版本</dt><dd>)[^<]+(</dd>)', rf"\g<1>{ver}\g<2>")
+sub("index.html", r'(<dt>体积</dt><dd>)[^<]+(</dd>)', rf"\g<1>{size_txt}\g<2>")
+sub("index.html", r'(<code id="sha">)[0-9a-f]+(</code>)', rf"\g<1>{h}\g<2>")
 
 # downloads/README.md：文件、版本、体积、哈希
 # 表格里的空格不统一（有的 `| 值 |`、有的 `| 值|`），所以模式不锚定空格。
@@ -58,4 +61,4 @@ if build_type == "release":
             "app/build/outputs/apk/release/app-release.apk")
 
 # 分享卡：版本与体积
-sub("tools/og.html", r"Android · [\d.]+ · [\d.]+ MB", f"Android · {ver} · {size_txt}")
+sub("tools/og.html", r"ANDROID · [\d.]+ · [\d.]+ MB", f"ANDROID · {ver} · {size_txt}")

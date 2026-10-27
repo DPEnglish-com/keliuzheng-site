@@ -1,42 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <!-- 分享卡模板：1200×630。由 tools/make-assets.sh 用 headless Chrome 截图成 assets/og.png。
-     改完记得重跑脚本。视觉与站点同一套 token（见 ../styles.css）。 -->
+     色板取自 PaperEcho 的 INK：纸面、焦墨、单一朱红；直角、细线、零投影。 -->
 <style>
   html, body { margin: 0; padding: 0; }
   body {
     width: 1200px; height: 630px;
-    background: #F5F2EB; color: #0B0B0A;
-    font-family: "IBM Plex Sans", "PingFang SC", "Noto Sans SC", sans-serif;
+    background: #F4F1EA; color: #0A0A0A;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", sans-serif;
     display: flex; flex-direction: column; justify-content: space-between;
-    padding: 64px 72px; box-sizing: border-box;
+    padding: 64px 72px 56px; box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
   }
-  .serif { font-family: "Noto Serif SC", "Songti SC", "Source Han Serif SC", serif; }
-  .mono  { font-family: "JetBrains Mono", "SF Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
+  .serif { font-family: "Songti SC", "Source Han Serif SC", "Noto Serif SC", serif; }
+  .mono  { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-variant-numeric: tabular-nums; }
 
   .top { display: flex; align-items: center; gap: 18px; }
   .seal {
-    position: relative; width: 56px; height: 56px; background: #B23A26;
-    color: #F5F2EB; display: grid; place-items: center;
-    font-family: "Noto Serif SC", "Songti SC", serif; font-size: 34px; line-height: 1;
+    position: relative; width: 56px; height: 56px; background: #C0432A;
+    color: #F4F1EA; display: grid; place-items: center;
+    font-family: "Songti SC", "Source Han Serif SC", serif; font-size: 34px; line-height: 1;
   }
-  .seal::before { content: ""; position: absolute; inset: 5px; border: 1px solid currentColor; opacity: .45; }
-  .brand-name { font-family: "Noto Serif SC", "Songti SC", serif; font-size: 26px; line-height: 1.2; }
-  .brand-sub { font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: .18em; color: #6A665C; margin-top: 4px; }
+  .seal::before { content: ""; position: absolute; inset: 5px; border: 1px solid currentColor; opacity: .48; }
+  .brand-name { font-family: "Songti SC", "Source Han Serif SC", serif; font-size: 26px; line-height: 1.2; letter-spacing: .04em; }
+  .brand-sub { font-family: ui-monospace, "SF Mono", monospace; font-size: 10px; letter-spacing: .16em; color: #68625A; margin-top: 5px; }
 
-  h1 { font-family: "Noto Serif SC", "Songti SC", serif; font-weight: 400;
-       font-size: 58px; line-height: 1.28; letter-spacing: -.01em; margin: 0; }
-  .sub { font-size: 21px; line-height: 1.7; color: #45423B; margin-top: 22px; max-width: 30em; }
+  h1 { font-family: "Songti SC", "Source Han Serif SC", serif; font-weight: 400;
+       font-size: 74px; line-height: 1.14; letter-spacing: -.01em; margin: 0; }
+  h1 .dot { color: #C0432A; }
+  .sub { font-size: 20px; line-height: 1.75; color: #4A4A48; margin-top: 20px; max-width: 30em; }
 
-  .bottom { }
-  .rule { border-top: 2px solid #0B0B0A; position: relative; padding-top: 4px; margin-bottom: 16px; }
-  .rule::before { content: ""; position: absolute; inset: 4px 0 auto 0; border-top: 1px solid #E2DCCE; }
+  .rule { border-top: 1px solid rgba(10, 10, 10, .30); position: relative; padding-top: 3px; margin-bottom: 14px; }
+  .rule::before { content: ""; position: absolute; inset: 3px 0 auto 0; border-top: 1px solid rgba(10, 10, 10, .14); }
   .meta { display: flex; justify-content: space-between;
-          font-family: "JetBrains Mono", monospace; font-size: 13px;
-          letter-spacing: .12em; color: #6A665C; font-variant-numeric: tabular-nums; }
+          font-family: ui-monospace, "SF Mono", monospace; font-size: 12px;
+          letter-spacing: .08em; color: #68625A; font-variant-numeric: tabular-nums; }
 </style>
 </head>
 <body>
@@ -44,19 +44,19 @@
     <span class="seal">课</span>
     <div>
       <div class="brand-name">课蒸馏</div>
-      <div class="brand-sub">COURSE DISTILLER</div>
+      <div class="brand-sub">COURSEDISTILL</div>
     </div>
   </div>
 
   <div>
-    <h1>看过的课，<br>留在纸上。</h1>
-    <p class="sub">把一门网课蒸馏成可检索的讲义与师承。</p>
+    <h1>看过的课，<br>留在纸上<span class="dot">。</span></h1>
+    <p class="sub">贴一条链接，把一门网课整理成讲义。<br>一讲六栏，每条都带时间码。</p>
   </div>
 
   <div class="bottom">
     <div class="rule"></div>
     <div class="meta">
-      <span>Android · 0.3.0 · 13.2 MB</span>
+      <span>ANDROID · 0.3.0 · 13.2 MB</span>
       <span>dpenglish-com.github.io/keliuzheng-site</span>
     </div>
   </div>

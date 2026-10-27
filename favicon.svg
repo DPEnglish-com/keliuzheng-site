@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="课蒸馏">
   <!-- 一枚朱印：方形、直角、朱砂填充，内嵌 1px 边款。
        纯几何、不含文字——图标里的小字在 16px 下认不出来，而且会依赖系统字体。 -->
-  <rect width="32" height="32" fill="#B23A26"/>
-  <rect x="3.5" y="3.5" width="25" height="25" fill="none" stroke="#F5F2EB" stroke-opacity=".45"/>
+  <rect width="32" height="32" fill="#C0432A"/>
+  <rect x="3.5" y="3.5" width="25" height="25" fill="none" stroke="#F4F1EA" stroke-opacity=".45"/>
 </svg>
