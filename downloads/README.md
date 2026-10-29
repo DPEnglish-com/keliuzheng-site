@@ -7,13 +7,13 @@
 
 | 项 | 值 |
 |---|---|
-| 文件 | `Keliuzheng-0.3.0-release.apk` |
-| 版本 | 0.3.0（versionCode 3）|
+| 文件 | `Keliuzheng-0.4.0-release.apk` |
+| 版本 | 0.4.0（versionCode 4）|
 | applicationId | `com.coursedistiller.app` |
 | 构建类型 | release（专用 keystore 签名）|
-| 体积 | 13.2 MB（13,818,815 字节）|
+| 体积 | 13.2 MB（13,818,819 字节）|
 | 系统要求 | Android 8.0 及以上（minSdk 26）|
-| SHA-256 | `c7a06d718fb30bafcba0e6e6f67def2c9f37c192f16b41f948a894933602aa70` |
+| SHA-256 | `a6b0000abd44125f9b67c6ae9b17c41e4906c319726d3221e0d5902c246af07f` |
 
 ## 须知
 

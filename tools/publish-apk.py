@@ -33,7 +33,8 @@ sub("index.html", r'href="(?:\./)?downloads/Keliuzheng-[^"]+\.apk"', f'href="dow
 sub("index.html", r'("softwareVersion": ")[^"]+(")', rf"\g<1>{ver}\g<2>")
 sub("index.html", r'(<span class="btn-note">)[^<]+(</span>)', rf"\g<1>{size_txt}\g<2>")
 sub("index.html", r'(<p class="hero-meta mono">Android 8\.0\+<span>·</span>)[^<]+(</p>)', rf"\g<1>{ver}\g<2>")
-sub("index.html", r'(<p class="download-sub mono">release )[\d.]+( · Android 8\.0\+ · )[\d.]+( MB</p>)',
+# size_txt 自带单位（"13.2 MB"），所以这里连 "MB" 一起换掉；否则会写出 "13.2 MB MB"。
+sub("index.html", r'(<p class="download-sub mono">release )[\d.]+( · Android 8\.0\+ · )[\d.]+\s*MB(</p>)',
     rf"\g<1>{ver}\g<2>{size_txt}\g<3>")
 sub("index.html", r'(<dt>版本</dt><dd>)[^<]+(</dd>)', rf"\g<1>{ver}\g<2>")
 sub("index.html", r'(<dt>体积</dt><dd>)[^<]+(</dd>)', rf"\g<1>{size_txt}\g<2>")
@@ -62,3 +63,11 @@ if build_type == "release":
 
 # 分享卡：版本与体积
 sub("tools/og.html", r"ANDROID · [\d.]+ · [\d.]+ MB", f"ANDROID · {ver} · {size_txt}")
+
+
+# 体积单位重复过一次（"13.2 MB MB"）：页面自洽、脚本也不报错，只有人眼能看出来。
+# 换包是手工活，加一道断言。
+for path in ("index.html", "downloads/README.md", "tools/og.html"):
+    body = (root / path).read_text()
+    if "MB MB" in body or "MB MB" in body.replace(" ", ""):
+        raise SystemExit(f"{path} 里体积单位重复了：{path}")
